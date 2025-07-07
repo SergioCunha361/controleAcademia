@@ -15,3 +15,4 @@ router.delete('/checkins/:matricula', AutenticacaoMiddleware.autenticarToken, Al
 
 
 module.exports = router;
+

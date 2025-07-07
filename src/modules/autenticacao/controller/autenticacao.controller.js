@@ -105,12 +105,12 @@ class AutenticacaoController {
       }
     );
   }
-  static async sair(req, res) {
+  static sair(req, res) {
     try {
       res.clearCookie("refreshToken", {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === "development",
-        sameSite: "strict",
+        sameSite: "strict"
       });
       res.status(200).json({ msg: "Logout realizado com sucesso" });
     } catch (error) {
