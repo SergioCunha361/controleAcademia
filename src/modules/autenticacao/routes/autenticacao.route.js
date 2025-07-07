@@ -1,18 +1,15 @@
 const express = require('express');
-const AlunoController = require('../../aluno/controllers/aluno.controller');
-const AutenticacaoMiddleware = require('../middleware/aluno.middleware');
+const AutenticacaoController = require('../controller/autenticacao.controller');
+
 const router = express.Router();
 
-// 🔓 Rota pública para cadastro de aluno
-router.post('/cadastrar', AlunoController.cadastrar);
-
-// 🔐 Rotas privadas protegidas por token
-router.get('/alunos', AutenticacaoMiddleware.autenticarToken, AlunoController.listarTodos);
-router.get('/alunos/matricula/:matricula', AutenticacaoMiddleware.autenticarToken, AlunoController.listarPorMatricula);
-router.put('/alunos/matricula/:matricula', AutenticacaoMiddleware.autenticarToken, AlunoController.atualizarPorMatricula);
-router.delete('/alunos/matricula/:matricula', AutenticacaoMiddleware.autenticarToken, AlunoController.excluirPorMatricula);
+// 🔐 Apenas rotas de autenticação
+router.post('/login', AutenticacaoController.login);
+router.post('/logout', AutenticacaoController.sair);
+router.post('/refresh-token', AutenticacaoController.refreshToken);
 
 module.exports = router;
+
 
 
 

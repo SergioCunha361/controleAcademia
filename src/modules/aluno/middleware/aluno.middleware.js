@@ -10,8 +10,8 @@ class AutenticacaoMiddleware{
         }
     
         jwt.verify(token, process.env.SECRET_KEY, (err, usuario) => {
-          if (err) {
-            return res.status(403).json({ msg: "Token de acesso não fornecido!" });
+        if (err) {
+          return res.status(403).json({ msg: "Token de acesso inválido ou expirado!" }); // ✅ token inválido
           }
     
           req.usuario = usuario; 

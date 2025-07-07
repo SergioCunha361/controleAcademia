@@ -33,30 +33,25 @@ const Aluno = sequelize.define(
           isDate: { msg: "Data e hora inválidas" },
         },
       },
-      data_hora_saida: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validade: {
-        is: {
-          args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          msg: "A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula, número e caractere especial.",
-        },
-      },
-    },
+   
     plano: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    senha: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validade: {
-        is: {
-          args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          msg: "A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula, número e caractere especial.",
-        },
-      },
-    },
+senha: {
+  type: DataTypes.STRING,
+  allowNull: false,
+  validate: {
+    isStrong(value) {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+      if (!regex.test(value)) {
+        throw new Error("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula, número e caractere especial.");
+      }
+    }
+  }
+}
+
+
 
 
   },

@@ -41,7 +41,7 @@ class AutenticacaoController {
         return res.status(400).json({ msg: "E-mail ou senha incorreto!" });
       }
       const dadosAluno = {
-        nome: usuario.nome,
+        nome: usuario.aluno_nome,
         matricula: usuario.matricula,
         papel: "aluno",
       };
@@ -51,17 +51,27 @@ class AutenticacaoController {
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: false,
-        secure: process.env.NODE_ENV,
-        sameStrict: "strict",
-        maxAge: 1 * 24, // 1 dia
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000
       });
+
+
+      // res.cookie("refreshToken", refreshToken, {
+      //   httpOnly: false,
+      //   secure: process.env.NODE_ENV,
+      //   sameStrict: "strict",
+      //   maxAge: 1 * 24, // 1 dia
+      // });
+      
       res.status(200).json({
         msg: "Usuario logado com sucesso",
         tokenAcesso,
-        nome: usuario.nome,
+        nome: usuario.aluno_nome,
         matricula: usuario.matricula,
         papel: "aluno"
       });
+
     } catch (error) {
       res.status(500).json({
         msg: "Erro interno do servidor. Por favor tente mais tarde.",
@@ -84,7 +94,7 @@ class AutenticacaoController {
           return res.status(403).json({ msg: "Refresh Token invalido!" });
         }
         const dadosAluno = {
-          nome: usuario.nome,
+          nome: usuario.aluno_nome,
           usuario: usuario.matricula,
           papel: "aluno",
         };
